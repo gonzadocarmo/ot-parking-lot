@@ -2,15 +2,15 @@ import { CarParkingSpot, BikeParkingSpot, ParkingSpot } from "./ParkingSpot";
 import { Car, Bike } from "./Vehicle";
 
 describe("ParkingSpot", () => {
-  let noRestrictionsSpot: ParkingSpot;
-  let blockedSpot: ParkingSpot;
-  let busySpot: ParkingSpot;
   describe("CarParkingSpot", () => {
+    let noRestrictionsSpot: CarParkingSpot;
+    let blockedSpot: CarParkingSpot;
+    let busySpot: CarParkingSpot;
     beforeEach(() => {
-      noRestrictionsSpot = new CarParkingSpot();
-      blockedSpot = new CarParkingSpot(["blocked"]);
-      busySpot = new CarParkingSpot();
-      busySpot.isFree = false;
+      noRestrictionsSpot = new CarParkingSpot(1);
+      blockedSpot = new CarParkingSpot(2, ["blocked"]);
+      busySpot = new CarParkingSpot(3);
+      busySpot.park(new Car());
     });
 
     describe("when trying to park a car", () => {
@@ -43,7 +43,7 @@ describe("ParkingSpot", () => {
         });
         describe("and restrictions", () => {
           describe("when handicap restriction", () => {
-            const handicapSpot = new CarParkingSpot(["handicap"]);
+            const handicapSpot = new CarParkingSpot(1, ["handicap"]);
             it("should return false", () => {
               const result = handicapSpot.park(car);
               expect(result).toBeFalsy();
@@ -51,7 +51,7 @@ describe("ParkingSpot", () => {
           });
           describe("when obstructed view restriction", () => {
             car.preferNoObstructedView = true;
-            const obstructedSpot = new CarParkingSpot(["obstructed"]);
+            const obstructedSpot = new CarParkingSpot(1, ["obstructed"]);
             it("should return false", () => {
               const result = obstructedSpot.park(car);
               expect(result).toBeFalsy();
@@ -70,7 +70,7 @@ describe("ParkingSpot", () => {
         });
         describe("and spot w/ restrictions", () => {
           describe("when handicap restriction", () => {
-            const handicapSpot = new CarParkingSpot(["handicap"]);
+            const handicapSpot = new CarParkingSpot(1, ["handicap"]);
             it("should return true", () => {
               const result = handicapSpot.park(car);
               expect(result).toBeTruthy();
@@ -78,7 +78,7 @@ describe("ParkingSpot", () => {
           });
           describe("when obstructed view restriction", () => {
             car.preferNoObstructedView = true;
-            const obstructedSpot = new CarParkingSpot(["obstructed"]);
+            const obstructedSpot = new CarParkingSpot(1, ["obstructed"]);
             it("should return false", () => {
               const result = obstructedSpot.park(car);
               expect(result).toBeFalsy();
@@ -97,11 +97,14 @@ describe("ParkingSpot", () => {
   });
 
   describe("BikeParkingSpot", () => {
+    let noRestrictionsSpot: BikeParkingSpot;
+    let blockedSpot: BikeParkingSpot;
+    let busySpot: BikeParkingSpot;
     beforeEach(() => {
-      noRestrictionsSpot = new BikeParkingSpot();
-      blockedSpot = new BikeParkingSpot(["blocked"]);
-      busySpot = new BikeParkingSpot();
-      busySpot.isFree = false;
+      noRestrictionsSpot = new BikeParkingSpot(1);
+      blockedSpot = new BikeParkingSpot(2, ["blocked"]);
+      busySpot = new BikeParkingSpot(3);
+      busySpot.park(new Bike());
     });
 
     describe("when trying to park a bike", () => {
@@ -134,7 +137,7 @@ describe("ParkingSpot", () => {
         });
         describe("and and spot w/ restrictions", () => {
           describe("when handicap restriction", () => {
-            const handicapSpot = new BikeParkingSpot(["handicap"]);
+            const handicapSpot = new BikeParkingSpot(1, ["handicap"]);
             it("should return false", () => {
               const result = handicapSpot.park(bike);
               expect(result).toBeFalsy();
@@ -142,7 +145,7 @@ describe("ParkingSpot", () => {
           });
           describe("when obstructed view restriction", () => {
             bike.preferNoObstructedView = true;
-            const obstructedSpot = new BikeParkingSpot(["obstructed"]);
+            const obstructedSpot = new BikeParkingSpot(1, ["obstructed"]);
             it("should return false", () => {
               const result = obstructedSpot.park(bike);
               expect(result).toBeFalsy();

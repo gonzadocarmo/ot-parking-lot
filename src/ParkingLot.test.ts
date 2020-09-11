@@ -7,7 +7,7 @@ describe("Parking Lot", () => {
   describe("parking CAR", () => {
     describe("when all spots busy", () => {
       const parkingLot = new ParkingLot();
-      parkingLot.parkingSpots.forEach((e) => (e.isFree = false));
+      parkingLot.parkingSpots.forEach((e) => e.park(new Car()));
 
       it("should throw error", () => {
         expect.assertions(1);
@@ -22,8 +22,6 @@ describe("Parking Lot", () => {
     describe("when at least one free spot", () => {
       describe("and w/o restrictions", () => {
         const parkingLot = new ParkingLot();
-        parkingLot.parkingSpots.forEach((e) => (e.isFree = false));
-        parkingLot.parkingSpots[2].isFree = true;
         const spotID = parkingLot.parkingSpots[2].id;
 
         it("should park car", () => {
@@ -34,8 +32,7 @@ describe("Parking Lot", () => {
       });
       describe("and w/ handicap restriction", () => {
         const parkingLot = new ParkingLot();
-        parkingLot.parkingSpots.forEach((e) => (e.isFree = false));
-        parkingLot.parkingSpots[1].isFree = true;
+        parkingLot.parkingSpots[2].park(new Car());
         const spotID = parkingLot.parkingSpots[1].id;
 
         describe("when car does NOT have handicap tag", () => {
@@ -63,8 +60,6 @@ describe("Parking Lot", () => {
   describe("parking handicap BIKE", () => {
     describe("when only 1 free spot", () => {
       const parkingLot = new ParkingLot();
-      parkingLot.parkingSpots.forEach((e) => (e.isFree = false));
-      parkingLot.parkingSpots[4].isFree = true;
       const spotID = parkingLot.parkingSpots[4].id;
 
       it("should park bike", () => {
